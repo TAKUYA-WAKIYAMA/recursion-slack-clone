@@ -1,29 +1,8 @@
-import React, { useEffect } from 'react';
-import {signInWithGoogle, getGoogleRedirectResult} from "../features/auth/Auth";
-import {getOrCreateUser} from "../features/user/userAPI";
+import React from 'react';
+import {signInWithGoogle} from "../features/auth/Auth";
 
 const Login = () => {
-    useEffect(() => {
-        const handleRedirectResult = async () => {
-            try {
-                const result = await getGoogleRedirectResult();
-                if (result) {
-                    const { uid, email, displayName, photoURL } = result.user;
-                    const user = await getOrCreateUser(uid, {
-                        email: email ?? "",
-                        displayName: displayName ?? "",
-                        profile_picture: photoURL ?? "",
-                    });
-                    console.log("ログイン成功:", user);
-                }
-            } catch (error) {
-                console.error('Login failed:', error);
-            }
-        };
-        handleRedirectResult();
-    }, []);
-
-    const handleLogin = () => {
+    const setUserId = () => {
         signInWithGoogle();
     };
 
@@ -37,7 +16,7 @@ const Login = () => {
                     <div className="flex items-center justify-center">
                         <button
                         className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        onClick={handleLogin}>
+                        onClick={setUserId}>
                         ログイン
                         </button>
                     </div>
